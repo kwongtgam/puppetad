@@ -1,0 +1,66 @@
+---
+rubyver: '2.0.0-p0'
+rbenvuser: 'root'
+nginxparams:
+  user: 'pixlr'
+  group: 'web'
+  gid: '1001'
+  password: '$6$n1ZLNYG/$rHMtCLPF08SPuBu0NzbE.tJwSehwjzU6qWkX.czU0MgtpfRkDjyNSv/CWWbmhUhlwJqx8eFKW5G5sMxuvQOfT.'
+  conffile: '/opt/nginx/conf/nginx.conf'
+nginxserverparams:
+  client_max_body_size: '100M'
+  sendfile: 'on'
+  keepalive_timeout: '65'
+  tcp_nodelay: 'on'
+  gzip: 'on'
+  error_log: '/dev/null crit'
+  access_log: 'off'
+nginxvhosts:
+  "prod":
+    docroot: '/var/www/pixlr/public/'
+    server_name: 'pixlr.com'
+    order: '10'
+    listenport: '80'
+  "prodssl":
+    docroot: '/var/www/pixlr/public/'
+    server_name: 'pixlr.com'
+    order: '11'
+    listenport: '443'
+  "dev":
+    docroot: '/var/www/developer/'
+    server_name: 'developer.pixlr.com'
+    order: '12'
+    listenport: '80'
+  "stage":
+    docroot: '/var/www/pixlr_stage/trunk/public'
+    server_name: 'pixlr.com'
+    order: '13'
+    listenport: '80'
+  "vagrant":
+    docroot: '/var/www/vagrant'
+    server_name: 'vagrant.pixlr.com'
+    order: '14'
+    listenport: '80'
+  "close":
+    docroot: '/var/www/pixlr/public/'
+    server_name: 'pixlr.com'
+    order: '99'
+    listenport: '80'
+dependentpkgs:
+  - subversion
+  - libcurl4-openssl-dev
+  - libpq-dev
+  - libpq5
+subdirs:
+  - '/var/www'
+  - '/var/www/pixlr'
+rubygems:
+  "passenger":
+    gemver: '4.0.5'
+passengerparams:
+  max_pool_size: 15
+  min_instances: 5
+  pool_idle_time: 5
+  buffers: 16
+  buffer_size: 32k
+  buffer_response: off
