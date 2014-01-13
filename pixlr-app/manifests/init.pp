@@ -64,10 +64,15 @@ class pixlr-app (
     webgroup => $webgroup,
   }
 
-  # Add SSL Certs
+  # Add SSL Key/Certs
   file { '/etc/ssl/certs/2014.pixlr.com.crt':
     ensure => present,
     source => 'puppet:///modules/pixlr-app/2014.pixlr.com.crt',
+  }
+
+  file { '/etc/ssl/certs/pixlr.com.key':
+    ensure => present,
+    source => 'puppet:///modules/pixlr-app/pixlr.com.key',
   }
 
   # Generate the proper Nginx conf files by concatenating fragments
