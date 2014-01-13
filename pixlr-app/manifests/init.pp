@@ -64,13 +64,6 @@ class pixlr-app (
     webgroup => $webgroup,
   }
 
-  # Build nginx.conf
-  file{ "${nginxconf}":
-    ensure  => file,
-    content => template("pixlr-app/nginx/conf/nginx.conf.erb"),
-    require => Exec['passenger-install-nginx']
-  }
-
   # Generate the proper Nginx conf files by concatenating fragments
   concat { $nginxconf: }
   create_resources(vhost, $nginxvhosts, $nginxparams)

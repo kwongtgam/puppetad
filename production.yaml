@@ -16,6 +16,11 @@ nginxserverparams:
   error_log: '/dev/null crit'
   access_log: 'off'
 nginxvhosts:
+  "serverparams":
+    docroot: '/var/www/pixlr/public/'
+    server_name: 'pixlr.com'
+    order: '01'
+    listenport: '80'
   "prod":
     docroot: '/var/www/pixlr/public/'
     server_name: 'pixlr.com'
