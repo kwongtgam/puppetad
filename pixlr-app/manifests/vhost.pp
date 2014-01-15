@@ -1,20 +1,31 @@
 define pixlr-app::vhost(
-  $user,
-  $group,
   $gid,
   $password,
-  $conffile    = $nginxparams['conffile'],
-  $listenport  = $nginxvhosts['listenport'],
-  $docroot     = $nginxvhosts['docroot'],
-  $server_name = $nginxvhosts['server_name'],
-  $order       = $nginxvhosts['order'],
+  $user            = $nginxparams['user'],
+  $group           = $nginxparams['group'],
+  $conffile        = $nginxparams['conffile'],
+  $listenport      = $nginxvhosts['listenport'],
+  $docroot         = $nginxvhosts['docroot'],
+  $server_name     = $nginxvhosts['server_name'],
+  $order           = $nginxvhosts['order'],
+  $rubyver         = hiera('rubyver'),
+  $gems            = hiera('rubygems'),
+  $passengerparams = hiera('passengerparams'),
 ){
 
-  # For debugging only
-  #notify { "Using ${conffile}, Item ${name} has docroot ${docroot}, server_name ${server_name}, order of ${order} and listenport of ${listenport}": }
+  # Setup some local variables used by templates
+  $passengerver  = $gems['passenger']['gemver']
+  $passengerroot = "/home/${user}/.rbenv/versions/${rubyver}/lib/ruby/gems/2.0.0/gems/passenger-${passengerver}"
+  $passengerruby = "/home/${user}/.rbenv/versions/${rubyver}/bin/ruby"
+  $maxpoolsize   = $passengerparams['max_pool_size']
+  $mininstances  = $passengerparams['min_instances']
+  $poolidletime  = $passengerparams['pool_idle_time']
+  $buffers       = $passengerparams['buffers']
+  $buffersize    = $passengerparams['buffer_size']
+  $bufferresp    = $passengerparams['buffer_response']
 
-  # Generate the proper Nginx conf files by concatenating fragments
-  #concat { $nginxconf: }
+  # For debugging only
+  #notify { "Item ${name}, passengerver ${passengerver}, passengerpath ${passengerpath}, passengerruby  ${passengerruby }, maxpoolsize ${maxpoolsize}, mininstances ${mininstances}, poolidletime ${poolidletime} ": }
 
   concat::fragment{ "${name}":
     target  => "${conffile}",

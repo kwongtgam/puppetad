@@ -1,4 +1,4 @@
-user pixlr web;
+user <%= @user %> <%= @group %>;
 worker_processes  4;
 
 events {
@@ -7,18 +7,18 @@ events {
 
 http {
 
-    passenger_root /root/.rbenv/versions/2.0.0-p0/lib/ruby/gems/2.0.0/gems/passenger-4.0.5;
-    passenger_ruby /root/.rbenv/versions/2.0.0-p0/bin/ruby;
-    passenger_max_pool_size 15;
-    passenger_min_instances 5;
-    passenger_pool_idle_time 600;
-    passenger_default_user pixlr;
-    passenger_default_group web;
+    passenger_root <%= @passengerroot %>;
+    passenger_ruby <%= @passengerruby %>;
+    passenger_max_pool_size <%= @maxpoolsize %>;
+    passenger_min_instances <%= @mininstances %>;
+    passenger_pool_idle_time <%= @poolidletime %>;
+    passenger_default_user <%= @user %>;
+    passenger_default_group <%= @group %>;
 
-    passenger_buffers 16 16k;
-    passenger_buffer_size 32k;
+    passenger_buffers <%= @buffers %> <%= @buffers %>k;
+    passenger_buffer_size <%= @buffersize %>;
 
-    passenger_buffer_response off;
+    passenger_buffer_response <%= @bufferresp %>;
 
     include       mime.types;
     client_max_body_size 100M;    

@@ -1,6 +1,5 @@
 ---
 rubyver: '2.0.0-p0'
-rbenvuser: 'root'
 nginxparams:
   user: 'pixlr'
   group: 'web'
@@ -59,6 +58,7 @@ dependentpkgs:
 subdirs:
   - '/var/www'
   - '/var/www/pixlr'
+  - '/opt/nginx'
 rubygems:
   "passenger":
     gemver: '4.0.5'
@@ -68,4 +68,4 @@ passengerparams:
   pool_idle_time: 5
   buffers: 16
   buffer_size: 32k
-  buffer_response: off
+  buffer_response: 'off'
