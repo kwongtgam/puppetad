@@ -69,3 +69,41 @@ passengerparams:
   buffers: 16
   buffer_size: 32k
   buffer_response: 'off'
+pixlrscripts:
+  - backup
+  - deploy
+  - deploy-all
+  - nag_nrpe.sh
+  - slaves
+  - sync
+cronjobs:
+  "security-updates":
+    command: '/usr/bin/apt-get upgrade -o Dir::Etc::SourceList=/etc/apt/security.sources.list'
+    user: 'root'
+    hour: '9'
+    minute: '0'
+    ensure: 'present'
+  "pixlr-temp-cleanup":
+    command: 'find /var/www/pixlr/public/_temp/ -type f -ctime +2 | xargs rm'
+    user: 'root'
+    hour: '*'
+    minute: '*/30'
+    ensure: 'present'
+  "mongo-backup":
+    command: '/root/backup'
+    user: 'root'
+    hour: '8'
+    minute: '30'
+    ensure: 'absent'
+  "unison-sync":
+    command: '/root/sync public'
+    user: 'root'
+    hour: '*'
+    minute: '*'
+    ensure: 'absent'
+  "pixlr-backup":
+    command: '/root/pixlr-bk /var/www/pixlr/public/news/ pixlr 192.168.181.246:27017 192.168.181.253:27017 192.168.182.191:27017'
+    user: 'root'
+    hour: '*'
+    minute: '15'
+    ensure: 'absent'

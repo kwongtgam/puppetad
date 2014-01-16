@@ -1,0 +1,50 @@
+#! /usr/bin/ruby1.9.1
+
+path = ARGV[0]
+base_dir = "/root/pixlr_backup/"
+
+def error(text)
+  $stderr.puts "ERROR: #{text}"
+end
+
+# Find primary in set
+primary = %x[mongo --host 192.168.181.246 -eval "db.isMaster()['primary']" --quiet].gsub("\n","")
+
+unless $?.success?
+  error "Could not find master"
+  exit! false
+end
+
+# Create the dump
+result = %x[mongodump --host #{primary} --db pixlr --out #{base_dir}]
+
+unless $?.success?
+  error "Could not dump database: #{result}"
+  exit! false
+end
+
+# GZip data
+if path.nil?
+  time = Time.now.strftime("%Y%m%d")
+  result = %x[cd #{base_dir} && tar -zcf pixlr_#{time}.tar.gz pixlr/]
+else
+  result = %x[cd #{base_dir} && tar -zcf #{path}.tar.gz pixlr/]
+end
+
+unless $?.success?
+  error "Could not gzip backup files: #{result}"
+  exit! false
+end
+
+# Clean up old ones
+if path.nil?
+  archives = Dir.glob("#{base_dir}*.tar.gz").sort.reverse
+  if archives.count > 3
+    archives[3..-1].each do |file|
+      File.delete(file)
+    end
+  end
+end
+
+# Done!
+
