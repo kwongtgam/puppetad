@@ -21,6 +21,23 @@ class pixlr-app::createuser(
     require    => Group["$webgroup"],
   }
 
+  file { "/home/$webuser/.ssh":
+    ensure  => directory,
+    owner   => $webuser,
+    group   => $webgroup,
+    mode    => 0644,
+    require => User["$webuser"],
+  }
+    
+  file { "$webuser/.ssh/authorized_keys":
+    ensure  => file,
+    owner   => $webuser,
+    group   => $webgroup,
+    mode    => 0644,
+    source  => 'puppet:///modules/pixlr-app/authorized_keys',
+    require => File["/home/$webuser/.ssh"],
+  }
+
   # Add subversion authentication
   file { "/home/${webuser}/.subversion":
     ensure => directory,

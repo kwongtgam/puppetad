@@ -1,18 +1,19 @@
 #! /bin/bash
 
 function nginx {
-  CONFPATH="/opt/nginx/conf/nginx.conf"
+  #CONFPATH="/opt/nginx/conf/nginx.conf"
 
-  for slave in `cat /root/slaves`;
-  do
-    scp $CONFPATH root@$slave:$CONFPATH
-  done
+  #for slave in `cat /root/slaves`;
+  #do
+  #  scp $CONFPATH root@$slave:$CONFPATH
+  #done
 
-  for slave in `cat /root/slaves`;
-  do
-    echo "Reloading config for $slave"
-    ssh root@$slave /opt/nginx/sbin/nginx -s reload
-  done
+  #for slave in `cat /root/slaves`;
+  #do
+  #  echo "Reloading config for $slave"
+  #  ssh root@$slave /opt/nginx/sbin/nginx -s reload
+  #done
+  echo "This function replaced by Puppet"
 }
 
 function public {
@@ -25,12 +26,13 @@ function public {
 }
 
 function cron {
-  FILE="/etc/cron.d/pixlr"
+  #FILE="/etc/cron.d/pixlr"
 
-  for slave in `cat /root/slaves`;
-  do
-    scp $FILE root@$slave:$FILE
-  done
+  #for slave in `cat /root/slaves`;
+  #do
+  #  scp $FILE root@$slave:$FILE
+  #done
+  echo "This function replaced by Puppet"
 }
 
 case $1 in

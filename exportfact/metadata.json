@@ -1,0 +1,25 @@
+{
+  "name": "hastexo-exportfact",
+  "version": "0.1.1",
+  "source": "UNKNOWN",
+  "author": "hastexo",
+  "license": "Apache Software License 2.0",
+  "summary": "Publish and share facts between nodes",
+  "description": "Enables nodes to export facts about themselves, and other nodes to import and use these facts.",
+  "project_page": "http://github.com/fghaas/puppet-exportfact",
+  "dependencies": [
+    {
+      "name": "puppetlabs/stdlib"
+    }
+  ],
+  "types": [
+
+  ],
+  "checksums": {
+    "Modulefile": "10806e58dfc5ed203f0a844a61274175",
+    "README.md": "6d8d7d9cfe26eef3039ecd59c8c40354",
+    "manifests/export.pp": "349df0c599dff1a236f5d4d48f548f95",
+    "manifests/import.pp": "34002caff71977514454912c22ed8e33",
+    "manifests/init.pp": "a13e34a1aae484245f18c7ac2583913b"
+  }
+}

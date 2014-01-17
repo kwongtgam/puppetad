@@ -8,9 +8,12 @@ class pixlr-app (
   $subdirs         = hiera('subdirs'),
   $pixlrscripts    = hiera('pixlrscripts'),
   $cronjobs        = hiera('cronjobs'),
+  $cronjobsall     = hiera('cronjobsall'),
+  $pixlrappmaster  = hiera('pixlrappmaster'),
 ){
  
   require configurerepo
+  include exportfact
 
   # Pull out hash parameters
   $webuser      = $nginxparams['user']
@@ -19,6 +22,7 @@ class pixlr-app (
   $webpass      = $nginxparams['password']
   $nginxconf    = $nginxparams['conffile']
   $rbenvpath    = "/home/${webuser}/.rbenv/versions/$rubyver/bin"
+  $cronjoball   = $cronjobs['pixlr-temp-cleanup']
 
   # Call the sub-class to create the user & group
   class {'pixlr-app::createuser':
@@ -37,8 +41,20 @@ class pixlr-app (
     source  => 'puppet:///modules/pixlr-app/pixlr-bk',
   }
 
-  # Call the create_resources function to add the cron jobs
-  create_resources(cron, $cronjobs)
+  # Put cron jobs on server depending on type of app server
+  if $pixlrappmaster =~ /true/ {
+
+    # Call the create_resources function to add the cron jobs
+    create_resources(cron, $cronjobs)
+    create_resources(cron, $cronjobsall)
+    exportfact::import {'pixlr-non-master-app':}
+
+  } else {
+
+    create_resources(cron, $cronjobsall)
+    class {'pixlr-app::remoteip': }
+  }
+    
 
   # Call the sub-class to install some dependent packages
   class {'pixlr-app::packages':

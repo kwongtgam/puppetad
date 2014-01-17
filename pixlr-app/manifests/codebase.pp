@@ -18,17 +18,17 @@ class pixlr-app::codebase(
     require => [ File["/home/${webuser}/.subversion"], File['/var/www/pixlr'] ],
   }
 
-  file { "/tmp/pixlrbin.tar.gz":
+  file { "/usr/local/src/pixlrbin.tar.gz":
     ensure => file,
     source => 'puppet:///modules/pixlr-app/pixlrbin.tar.gz',
   }
 
   # Add public SWF files after SVN checkout
   exec { 'install-binary-files':
-    command => "su - ${webuser} -c 'cd /var/www/pixlr/public; tar -zxvf /tmp/pixlrbin.tar.gz'",
+    command => "su - ${webuser} -c 'cd /var/www/pixlr/public; tar -zxvf /usr/local/src/pixlrbin.tar.gz'",
     unless  => "test -f /var/www/pixlr/public/editor/editor.swf",
     timeout => 0,
     path    => [ '/usr/bin', '/usr/sbin', '/bin', '/sbin'],
-    require => Exec['svncheckout-pixlr'],
+    require => [ Exec['svncheckout-pixlr'], File['/usr/local/src/pixlrbin.tar.gz'] ],
   }
 }
