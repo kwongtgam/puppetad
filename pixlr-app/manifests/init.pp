@@ -32,6 +32,11 @@ class pixlr-app (
   pixlr-app::scripts { $pixlrscripts:
   }
 
+  file { '/root/pixlr-bk':
+    ensure  => file,
+    source  => 'puppet:///modules/pixlr-app/pixlr-bk',
+  }
+
   # Call the create_resources function to add the cron jobs
   create_resources(cron, $cronjobs)
 

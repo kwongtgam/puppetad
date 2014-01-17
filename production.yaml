@@ -55,6 +55,7 @@ dependentpkgs:
   - libcurl4-openssl-dev
   - libpq-dev
   - libpq5
+  - unison
 subdirs:
   - '/var/www'
   - '/var/www/pixlr'
@@ -94,16 +95,16 @@ cronjobs:
     user: 'root'
     hour: '8'
     minute: '30'
-    ensure: 'absent'
+    ensure: 'present'
   "unison-sync":
     command: '/root/sync public'
     user: 'root'
     hour: '*'
     minute: '*'
-    ensure: 'absent'
+    ensure: 'present'
   "pixlr-backup":
     command: '/root/pixlr-bk /var/www/pixlr/public/news/ pixlr 192.168.181.246:27017 192.168.181.253:27017 192.168.182.191:27017'
     user: 'root'
     hour: '*'
     minute: '15'
-    ensure: 'absent'
+    ensure: 'present'

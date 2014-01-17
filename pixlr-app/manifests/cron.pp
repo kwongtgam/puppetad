@@ -1,5 +1,4 @@
 define pixlr-app::cron(
-  #$cronjobs = hiera('cronjobs'),
 ){
 
   $command  = $cronjobs['command']
@@ -8,13 +7,13 @@ define pixlr-app::cron(
   $minute   = $cronjobs['minute']
   $ensure   = $cronjobs['ensure']
 
- notify {"Item ${name} has command ${command}, user ${user}, hour ${hour}, minute ${minute}, ensure ${ensure}": }
+  #notify {"Item ${name} has command ${command}, user ${user}, hour ${hour}, minute ${minute}, ensure ${ensure}": }
 
-#  cron { $name:
-#    command => $command,
-#    ensure  => $ensure,
-#    user    => $user,
-#    hour    => $hour,
-#    minute  => $minute,
-#  }
+  cron { $name:
+    command => $command,
+    ensure  => $ensure,
+    user    => $user,
+    hour    => $hour,
+    minute  => $minute,
+  }
 }
