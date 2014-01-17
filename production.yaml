@@ -84,12 +84,6 @@ cronjobs:
     hour: '9'
     minute: '0'
     ensure: 'present'
-  "pixlr-temp-cleanup":
-    command: 'find /var/www/pixlr/public/_temp/ -type f -ctime +2 | xargs rm'
-    user: 'root'
-    hour: '*'
-    minute: '*/30'
-    ensure: 'present'
   "mongo-backup":
     command: '/root/backup'
     user: 'root'
@@ -108,3 +102,17 @@ cronjobs:
     hour: '*'
     minute: '15'
     ensure: 'present'
+cronjobsall:
+  "pixlr-temp-cleanup":
+    command: 'find /var/www/pixlr/public/_temp/ -type f -ctime +2 | xargs rm'
+    user: 'pixlr'
+    hour: '*'
+    minute: '*/30'
+    ensure: 'present'
+javaparams:
+  version: 7u51
+  build: b13
+  jdkdir: /opt
+  dlurlbase: 'http://download.oracle.com/otn-pub/java/jdk'
+  os: 'linux-x64'
+  unpackdir: 'jdk1.7.0_51'
