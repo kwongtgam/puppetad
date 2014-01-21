@@ -1,18 +1,29 @@
 class immio::repo(
 ){
+  require configurerepo
 
   # Only run this if it's a Debian based system
   if ( $osfamily == 'Debian' ) {
 
     # Requires the puppetlabs/apt module to be installed
 
-    # Install the backports repo
+    # Install the backports repo to get newer Redis version
     apt::source {'backports':
       location    => 'http://debian.cs.binghamton.edu/debian',
       repos       => 'main',
-      release     => 'wheezy-backports',
+      release     => "$::lsbdistcodename-backports",
       include_src => false,
     }
+
+    # Install the repo for Postgres
+    #apt::source {'pgdg':
+    #  location    => 'http://apt.postgresql.org/pub/repos/apt/',
+    #  repos       => 'main',
+    #  release     => "$::lsbdistcodename-pgdg",
+    #  key         => 'ACCC4CF8',
+    #  key_source  => 'https://www.postgresql.org/media/keys/ACCC4CF8.asc',
+    #  include_src => false,
+    #}
 
     # Install the repo for RabbitMQ
     apt::source {'rabbitmq':

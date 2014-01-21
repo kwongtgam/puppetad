@@ -21,7 +21,7 @@ function public {
 
   for slave in `cat /root/slaves`;
   do
-      unison $PUBLIC ssh://$slave/$PUBLIC -batch -silent -owner -group -ignore "Name .svn" -ignore "Path *_temp*" -ignore "Name *.swp"
+      unison $PUBLIC ssh://<%= @webuser %>@$slave/$PUBLIC -batch -silent -owner -group -ignore "Name .svn" -ignore "Path *_temp*" -ignore "Name *.swp"
   done
 }
 

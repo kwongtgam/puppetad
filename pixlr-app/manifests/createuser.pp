@@ -3,6 +3,7 @@ class pixlr-app::createuser(
   $webgroup,
   $webgid,
   $webpass,
+  $pixlrappmaster,
 ){
 
   # Create the group that the web server will run as
@@ -21,30 +22,45 @@ class pixlr-app::createuser(
     require    => Group["$webgroup"],
   }
 
-  file { "/home/$webuser/.ssh":
-    ensure  => directory,
-    owner   => $webuser,
-    group   => $webgroup,
-    mode    => 0644,
-    require => User["$webuser"],
-  }
-    
-  file { "$webuser/.ssh/authorized_keys":
-    ensure  => file,
-    owner   => $webuser,
-    group   => $webgroup,
-    mode    => 0644,
-    source  => 'puppet:///modules/pixlr-app/authorized_keys',
-    require => File["/home/$webuser/.ssh"],
-  }
+  if $pixlrappmaster =~ /true/ {
 
-  # Add subversion authentication
-  file { "/home/${webuser}/.subversion":
-    ensure => directory,
-    owner  => $webuser,
-    group  => $webgroup,
-    source => 'puppet:///modules/pixlr-app/pixlr/.subversion',
-    recurse => true,
-    require => User["$webuser"],
-  }
+    # Copy the keys from Linode app1
+    file { "/root/.ssh":
+      ensure  => directory,
+      source  => 'puppet:///modules/pixlr-app/root/.ssh', 
+      recurse => true,
+      owner   => root,
+      group   => root,
+      mode    => 0700,
+    }
+
+  } else {
+
+    file { "/home/$webuser/.ssh":
+      ensure  => directory,
+      owner   => $webuser,
+      group   => $webgroup,
+      mode    => 0600,
+      require => User["$webuser"],
+    }
+    
+    file { "/home/$webuser/.ssh/authorized_keys":
+      ensure  => file,
+      owner   => $webuser,
+      group   => $webgroup,
+      mode    => 0600,
+      source  => 'puppet:///modules/pixlr-app/pixlr/.ssh/authorized_keys',
+      require => File["/home/$webuser/.ssh"],
+    }
+  } # end pixlrappmaster condition
+
+    # Add subversion authentication
+    file { "/home/${webuser}/.subversion":
+      ensure => directory,
+      owner  => $webuser,
+      group  => $webgroup,
+      source => 'puppet:///modules/pixlr-app/pixlr/.subversion',
+      recurse => true,
+      require => User["$webuser"],
+    }
 }

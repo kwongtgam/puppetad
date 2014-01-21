@@ -10,10 +10,10 @@ class pixlr-app (
   $cronjobs        = hiera('cronjobs'),
   $cronjobsall     = hiera('cronjobsall'),
   $pixlrappmaster  = hiera('pixlrappmaster'),
+  $pixlrappslaves  = hiera('pixlrappslaves'),
 ){
  
   require configurerepo
-  include exportfact
 
   # Pull out hash parameters
   $webuser      = $nginxparams['user']
@@ -26,18 +26,23 @@ class pixlr-app (
 
   # Call the sub-class to create the user & group
   class {'pixlr-app::createuser':
-    webuser  => $webuser,
-    webgroup => $webgroup,
-    webgid   => $webgid,
-    webpass  => $webpass,
+    webuser        => $webuser,
+    webgroup       => $webgroup,
+    webgid         => $webgid,
+    webpass        => $webpass,
+    pixlrappmaster => $pixlrappmaster,
   }
 
   # Call define class to add scripts
   pixlr-app::scripts { $pixlrscripts:
+   pixlrappslaves => $pixlrappslaves,
   }
 
-  file { '/root/pixlr-bk':
+  file { "/home/${webuser}/pixlr-bk":
     ensure  => file,
+    owner   => $webuser,
+    group   => $webgroup,
+    mode    => 0755,
     source  => 'puppet:///modules/pixlr-app/pixlr-bk',
   }
 
@@ -47,7 +52,6 @@ class pixlr-app (
     # Call the create_resources function to add the cron jobs
     create_resources(cron, $cronjobs)
     create_resources(cron, $cronjobsall)
-    exportfact::import {'pixlr-non-master-app':}
 
   } else {
 
