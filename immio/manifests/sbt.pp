@@ -29,10 +29,10 @@ class immio::sbt(
     #creates => "/usr/local/src/.sbtdownloaded",
   }
   ->
-  file { "$homedir/.sbtconfig":
+  file { "/home/$user/.sbtconfig":
     ensure => file,
     owner  => $user,
     group  => $group,
-    content => template("immiodev/.sbtconfig.erb"),
+    content => template("immio/.sbtconfig.erb"),
   }
 }

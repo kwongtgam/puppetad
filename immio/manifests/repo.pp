@@ -31,6 +31,7 @@ class immio::repo(
       location    => 'http://www.rabbitmq.com/debian/',
       repos       => 'main',
       release     => 'testing',
+      key         => '056E8E56',
       key_source  => 'http://www.rabbitmq.com/rabbitmq-signing-key-public.asc',
       include_src => false,
     }

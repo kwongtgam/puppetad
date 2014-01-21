@@ -1,9 +1,9 @@
-class pixlr-app::packages(
-  $dependentpkgs,
+class immio::packages(
+  $immiopkgs,
 ){
 
   #Install some packages
-  package { $dependentpkgs:
+  package { $immiopkgs:
     ensure => installed,
   }
 }

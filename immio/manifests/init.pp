@@ -1,7 +1,8 @@
 class immio(
-  $javaparams = hiera('javaparams'),
-  $sbtparams  = hiera('sbtparams'),
-  $immiopkgs  = hiera('immiopkgs'),
+  $javaparams    = hiera('javaparams'),
+  $sbtparams     = hiera('sbtparams'),
+  $sbtconfigopts = hiera('sbtconfigopts'),
+  $immiopkgs     = hiera('immiopkgs'),
 ){
   require util
 
@@ -21,10 +22,11 @@ class immio(
 
   # Call the sub-class to download/install SBT
   class {'immio::sbt':
-    sbtparams  => $sbtparams,
+    sbtparams     => $sbtparams,
+    sbtconfigopts => $sbtconfigopts,
   }
 
   # Order the resources
-  Class['immio::repo'] -> Class'[immio::packages'] -> Class['immio::java'] -> Class['immio::sbt']
+  Class['immio::repo'] -> Class['immio::packages'] -> Class['immio::java'] -> Class['immio::sbt']
 
 }
