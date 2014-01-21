@@ -1,0 +1,7 @@
+immiopkgs:
+  - git-core
+  - redis-server
+  - tmux
+  - rabbitmq-server
+  - postgresql
+  - postgresql-contrib
