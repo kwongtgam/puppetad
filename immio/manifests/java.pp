@@ -20,13 +20,14 @@ class immio::java(
 
   # Download JDK from Oracle
   exec { 'download-java':
-    command => "wget --no-cookies --header 'Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com' --no-check-certificate $jdkurl -O /opt/${unpackdir}.tar.gz &> /dev/null; touch /usr/local/src/.javadownloaded",
+    command => "wget --no-cookies --header 'Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com' --no-check-certificate $jdkurl -O /opt/${unpackdir}.tar.gz ; touch /usr/local/src/.javadownloaded",
     creates => "/usr/local/src/.javadownloaded",
   }
   ->
   # Unpack JDK
   exec { 'unpack-java':
-    command => "tar zxvf ${unpackdir}.tar.gz -C /opt/ &> /dev/null; touch /usr/local/src/.javainstalled",
+    command => "tar zxvf ${unpackdir}.tar.gz -C /opt/ ; touch /usr/local/src/.javainstalled",
+    cwd     => "/opt",
     creates => "/usr/local/src/.javainstalled",
   }
   ->

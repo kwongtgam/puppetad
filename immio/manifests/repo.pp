@@ -1,6 +1,7 @@
 class immio::repo(
 ){
-  require configurerepo
+  #require configurerepo
+  include apt
 
   # Only run this if it's a Debian based system
   if ( $osfamily == 'Debian' ) {

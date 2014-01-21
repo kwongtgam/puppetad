@@ -15,7 +15,7 @@ class immio::sbt(
 
   # Download SBT Deb package
   exec { 'download-sbt':
-    command => "wget $sbturl -O /opt/$pkgname &> /dev/null; touch /usr/local/src/.sbtdownloaded",
+    command => "wget $sbturl -O /opt/$pkgname ; touch /usr/local/src/.sbtdownloaded",
     creates => "/usr/local/src/.sbtdownloaded",
   }
   ->
