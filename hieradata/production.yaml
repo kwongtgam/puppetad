@@ -133,3 +133,10 @@ sbtparams:
   dlurlbase: 'http://repo.scala-sbt.org/scalasbt/sbt-native-packages/org/scala-sbt/sbt'
   version: 0.13.1
   pkgname: sbt.deb
+  user: debian
+  group: debian
+sbtconfigopts:
+  - Dscala.concurrent.context.minThreads=2
+  - XX:+CMSClassUnloadingEnabled
+  - XX:+UseConcMarkSweepGC
+  - XX:MaxPermSize=724M

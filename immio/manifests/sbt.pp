@@ -1,9 +1,12 @@
 class immio::sbt(
   $sbtparams,
+  $sbtconfigopts,
 ){
   $version   = $sbtparams['version']
   $dlurlbase = $sbtparams['dlurlbase']
   $pkgname   = $sbtparams['pkgname']
+  $user      = $sbtparams['user']
+  $group     = $sbtparams['group']
 
   $sbturl = "$dlurlbase/$version/$pkgname"
 
@@ -24,5 +27,12 @@ class immio::sbt(
     command => "dpkg -i --ignore-depends=java2-runtime /opt/$pkgname ; touch /usr/local/src/.sbtdownloaded",
     unless  => "dpkg-query -l sbt",
     #creates => "/usr/local/src/.sbtdownloaded",
+  }
+  ->
+  file { "$homedir/.sbtconfig":
+    ensure => file,
+    owner  => $user,
+    group  => $group,
+    content => template("immiodev/.sbtconfig.erb"),
   }
 }

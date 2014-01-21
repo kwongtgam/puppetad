@@ -1,0 +1,9 @@
+#!/bin/bash
+
+tmux new-session -s immio -n immio-win -d
+tmux split-window
+
+tmux send-keys -t 0 'cd /vagrant/backend/; sbt run' 'C-m'
+tmux send-keys -t 1 'cd /vagrant/api/; sbt play run' 'C-m'
+
+tmux attach -t immio
