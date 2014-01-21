@@ -77,6 +77,19 @@ pixlrscripts:
   - nag_nrpe.sh
   - slaves
   - sync
+pixlrappslaves:
+  - 10.142.226.74
+  - 192.168.159.39
+  - 192.168.159.43
+  - 192.168.168.187
+  - 192.168.175.104
+  - 192.168.175.111
+  - 192.168.168.75
+  - 192.168.169.31
+pixlrmongodb:
+  - 192.168.181.246
+  - 192.168.181.253
+  - 192.168.182.191
 cronjobs:
   "security-updates":
     command: '/usr/bin/apt-get upgrade -o Dir::Etc::SourceList=/etc/apt/security.sources.list'
@@ -97,8 +110,8 @@ cronjobs:
     minute: '*'
     ensure: 'present'
   "pixlr-backup":
-    command: '/root/pixlr-bk /var/www/pixlr/public/news/ pixlr 192.168.181.246:27017 192.168.181.253:27017 192.168.182.191:27017'
-    user: 'root'
+    command: '/home/pixlr/pixlr-bk /var/www/pixlr/public/news/ pixlr 192.168.181.246:27017 192.168.181.253:27017 192.168.182.191:27017'
+    user: 'pixlr'
     hour: '*'
     minute: '15'
     ensure: 'present'
@@ -116,3 +129,7 @@ javaparams:
   dlurlbase: 'http://download.oracle.com/otn-pub/java/jdk'
   os: 'linux-x64'
   unpackdir: 'jdk1.7.0_51'
+sbtparams: 
+  dlurlbase: 'http://repo.scala-sbt.org/scalasbt/sbt-native-packages/org/scala-sbt/sbt'
+  version: 0.13.1
+  pkgname: sbt.deb
