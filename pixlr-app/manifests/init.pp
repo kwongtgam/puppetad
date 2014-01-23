@@ -58,7 +58,7 @@ class pixlr-app (
   } else {
 
     create_resources(cron, $cronjobsall)
-    class {'pixlr-app::remoteip': }
+    #class {'pixlr-app::remoteip': }
   }
 
   # Call the sub-class to install the Deb repositories
