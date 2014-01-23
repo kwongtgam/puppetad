@@ -1,5 +1,5 @@
 ---
-rubyver: '2.0.0-p0'
+rubyver: '2.1.0'
 nginxparams:
   user: 'pixlr'
   group: 'web'
@@ -62,7 +62,7 @@ subdirs:
   - '/opt/nginx'
 rubygems:
   "passenger":
-    gemver: '4.0.5'
+    gemver: '4.0.35'
 passengerparams:
   max_pool_size: 15
   min_instances: 5
