@@ -58,8 +58,11 @@ class pixlr-app (
     create_resources(cron, $cronjobsall)
     class {'pixlr-app::remoteip': }
   }
-    
 
+  # Call the sub-class to install the Deb repositories
+  class {'pixlr-app::repo':
+  }
+    
   # Call the sub-class to install some dependent packages
   class {'pixlr-app::packages':
     dependentpkgs  => $dependentpkgs,
@@ -91,5 +94,5 @@ class pixlr-app (
   }
 
   # Order the classes
-  Class['pixlr-app::createuser'] -> Class['pixlr-app::packages'] -> Class['pixlr-app::rbenv'] -> Class['pixlr-app::codebase'] -> Class['pixlr-app::nginx']
+  Class['pixlr-app::createuser'] -> Class['pixlr-app::repo'] -> Class['pixlr-app::packages'] -> Class['pixlr-app::rbenv'] -> Class['pixlr-app::codebase'] -> Class['pixlr-app::nginx']
 }

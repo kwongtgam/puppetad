@@ -14,8 +14,9 @@ define pixlr-app::vhost(
 ){
 
   # Setup some local variables used by templates
+  $rubynd        = regsubst($rubyver,'^(\d+.\d+.\d+)-(\w+)','\1')
   $passengerver  = $gems['passenger']['gemver']
-  $passengerroot = "/home/${user}/.rbenv/versions/${rubyver}/lib/ruby/gems/2.0.0/gems/passenger-${passengerver}"
+  $passengerroot = "/home/${user}/.rbenv/versions/${rubyver}/lib/ruby/gems/${rubynd}/gems/passenger-${passengerver}"
   $passengerruby = "/home/${user}/.rbenv/versions/${rubyver}/bin/ruby"
   $maxpoolsize   = $passengerparams['max_pool_size']
   $mininstances  = $passengerparams['min_instances']

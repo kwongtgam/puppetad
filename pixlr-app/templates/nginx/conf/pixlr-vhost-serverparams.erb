@@ -29,7 +29,8 @@ http {
     tcp_nodelay		on;
 
     error_log /dev/null crit;
-    access_log off;
+    #access_log off;
+    access_log /opt/nginx/logs/prod-access.log;
 
     gzip  on;
 

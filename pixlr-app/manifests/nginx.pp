@@ -7,6 +7,11 @@ class pixlr-app::nginx(
   $nginxparams,
 ){
 
+  Concat {
+    owner => $webuser,
+    group => $webgroup,
+  }
+
   # Install/compile Phusion Passenger with Nginx
   exec { 'passenger-install-nginx':
     command => "su - ${webuser} -c 'passenger-install-nginx-module --auto --auto-download --prefix=/opt/nginx; touch /home/${webuser}/phusion-installed'",
