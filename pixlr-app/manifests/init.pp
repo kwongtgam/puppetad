@@ -1,16 +1,18 @@
 class pixlr-app (
-  $rubyver         = hiera('rubyver'),
-  $rubygems        = hiera('rubygems'),
-  $nginxparams     = hiera('nginxparams'),
-  $nginxvhosts     = hiera('nginxvhosts'),
-  $dependentpkgs   = hiera('dependentpkgs'),
-  $passengerparams = hiera('passengerparams'),
-  $subdirs         = hiera('subdirs'),
-  $pixlrscripts    = hiera('pixlrscripts'),
-  $cronjobs        = hiera('cronjobs'),
-  $cronjobsall     = hiera('cronjobsall'),
-  $pixlrappmaster  = hiera('pixlrappmaster'),
-  $pixlrappslaves  = hiera('pixlrappslaves'),
+  $rubyver          = hiera('rubyver'),
+  $rubygems         = hiera('rubygems'),
+  $nginxparams      = hiera('nginxparams'),
+  $nginxvhosts      = hiera('nginxvhosts'),
+  $dependentpkgs    = hiera('dependentpkgs'),
+  $passengerparams  = hiera('passengerparams'),
+  $subdirs          = hiera('subdirs'),
+  $pixlrscripts     = hiera('pixlrscripts'),
+  $cronjobs         = hiera('cronjobs'),
+  $cronjobsall      = hiera('cronjobsall'),
+  $pixlrappmaster   = hiera('pixlrappmaster'),
+  $pixlrappslaves   = hiera('pixlrappslaves'),
+  $pixlrmongodb     = hiera('pixlrmongodb'),
+  $pixlrmongodbport = hiera('pixlrmongodbport'),
 ){
  
   require configurerepo
@@ -78,9 +80,11 @@ class pixlr-app (
 
   # Call the sub-class to checkout from SVN, run bundle install and copy binary files
   class {'pixlr-app::codebase':
-    webuser     => $webuser,
-    webgroup    => $webgroup,
-    subdirs     => $subdirs,
+    webuser          => $webuser,
+    webgroup         => $webgroup,
+    subdirs          => $subdirs,
+    pixlrmongodb     => $pixlrmongodb,
+    pixlrmongodbport => $pixlrmongodbport,
   }
 
   # Call the sub-class to compile/install Nginx with Phusion Passenger

@@ -90,6 +90,7 @@ pixlrmongodb:
   - 192.168.181.246
   - 192.168.181.253
   - 192.168.182.191
+pixlrmongodbport: 27017
 cronjobs:
   "security-updates":
     command: '/usr/bin/apt-get upgrade -o Dir::Etc::SourceList=/etc/apt/security.sources.list'

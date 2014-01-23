@@ -2,6 +2,8 @@ class pixlr-app::codebase(
   $webuser,
   $webgroup,
   $subdirs,
+  $pixlrmongodb,
+  $pixlrmongodbport,
 ){
 
   # Create Subdirs
@@ -21,6 +23,12 @@ class pixlr-app::codebase(
   file { "/usr/local/src/pixlrbin.tar.gz":
     ensure => file,
     source => 'puppet:///modules/pixlr-app/pixlrbin.tar.gz',
+  }
+
+  # Overwrite mongoid.yml file from SVN
+  file { "/var/www/pixlr/config/mongoid.yml":
+    ensure  => file,
+    content => template('pixlr-app/mongoid.yml.erb'),
   }
 
   # Add public SWF files after SVN checkout
