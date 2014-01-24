@@ -1,6 +1,6 @@
 class util(
-  $defaultpkgs = hiera('defaultpkgs')
-  $pmasterip   = hiera('pmasterip')
+  $defaultpkgs = hiera('defaultpkgs'),
+  $pmasterip   = hiera('pmasterip'),
 ){
 
   # Setup NTP - need puppetlabs/ntp module installed
@@ -14,7 +14,7 @@ class util(
   # Add the pixlr puppet master IP to /etc/hosts
   host { 'pmint.pixlr.com':
     ip           => $pmasterip,
-    host_aliases => [ 'puppet'],
+    host_aliases => [ 'puppet', 'puppet.pixlr.com', 'pmint'],
   }
 
   # Setup the default editor 
