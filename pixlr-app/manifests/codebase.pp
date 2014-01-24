@@ -29,6 +29,7 @@ class pixlr-app::codebase(
   file { "/var/www/pixlr/config/mongoid.yml":
     ensure  => file,
     content => template('pixlr-app/mongoid.yml.erb'),
+    notify  => Service['nginx'],
   }
 
   # Add public SWF files after SVN checkout

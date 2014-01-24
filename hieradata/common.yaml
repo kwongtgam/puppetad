@@ -1,1 +1,4 @@
 pixlrappmaster: false
+defaultpkgs:
+  - curl
+  - tree
