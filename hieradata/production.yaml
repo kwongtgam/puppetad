@@ -142,3 +142,20 @@ sbtconfigopts:
   - XX:+CMSClassUnloadingEnabled
   - XX:+UseConcMarkSweepGC
   - XX:MaxPermSize=724M
+nagiosparams:
+  url: 'http://assets.nagios.com/downloads/nagiosxi'
+  releaseyear: '2012'
+  releasever: 'xi-2012r2.8c'
+nagiospkgs:
+  - nagios-nrpe-server
+  - nagios-plugins
+  - nagios-snmp-plugins
+nagioschecks:
+  - check_init_service
+  - check_services
+  - check_cpu_stats.sh
+  - custom_check_mem
+  - custom_check_procs
+  - check_open_files.pl
+  - check_netstat.pl
+  - check_passenger.sh
