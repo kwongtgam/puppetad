@@ -1,0 +1,15 @@
+class nrpe::checks(
+  $checkdir,
+) {
+
+  File {
+    mode => 0755,
+  }
+
+#  file { "$checkdir":
+  file { "/tmp/test":
+    ensure  => directory,
+    content => "puppet:///modules/nrpe/checks/${operatingsystem}/", 
+    recurse => true,
+  }
+}

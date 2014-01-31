@@ -10,5 +10,6 @@ command[check_ide_smart]=/usr/lib/nagios/plugins/check_ide_smart $ARG1$
 command[check_all_procs]=/usr/lib/nagios/plugins/custom_check_procs
 command[check_procs]=/usr/lib/nagios/plugins/check_procs $ARG1$
 command[check_open_files]=/usr/lib/nagios/plugins/check_open_files.pl $ARG1$
+<% if @domain =~ /pixlr.com/ -%>
 command[check_netstat]=/usr/lib/nagios/plugins/check_netstat.pl -p $ARG1$ $ARG2$
-command[check_passenger]=/usr/lib/nagios/plugins/check_passenger.sh $ARG1$ $ARG2$
+<% end -%>

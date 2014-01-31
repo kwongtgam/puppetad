@@ -1,6 +1,7 @@
 class util(
-  $defaultpkgs = hiera('defaultpkgs'),
-  $pmasterip   = hiera('pmasterip'),
+  $defaultpkgs  = hiera('defaultpkgs'),
+  $pmasterip    = hiera('pmasterip'),
+  $pmasterecsip = hiera('pmasterecsip'),
 ){
 
   # Setup NTP - need puppetlabs/ntp module installed
@@ -11,11 +12,20 @@ class util(
     ensure => installed,
   }
 
-  # Add the pixlr puppet master IP to /etc/hosts
-  host { 'pmint.pixlr.com':
-    ip           => $pmasterip,
-    host_aliases => [ 'puppet', 'puppet.pixlr.com', 'pmint'],
+  if ( $::hostname =~ /(app)\d+$/ and $::domain =~ /pixlr.com/ ) {
+    # Add the pixlr puppet master IP to /etc/hosts
+    host { 'pmint.pixlr.com':
+      ip           => $pmasterip,
+      host_aliases => [ 'puppet', 'puppet.pixlr.com', 'pmint'],
+    }
+  } else {
+    # Add the ECS puppet master IP to /etc/hosts
+    host { 'ecs-a02b4654.ecs.ads.autodesk.com':
+      ip           => $pmasterecsip,
+      host_aliases => [ 'puppet', 'pmint'],
+    }
   }
+
 
   # Setup the default editor 
   if ( $::osfamily == 'Debian' ) {

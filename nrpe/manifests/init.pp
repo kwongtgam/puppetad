@@ -1,30 +1,28 @@
 class nrpe(
   $nagiospkgs   = hiera('nagiospkgs'),
   $nagioschecks = hiera('nagioschecks'),
+  $nrpeparams   = hiera('nrpeparams'),
 ){
+
+  $checkdir    = $nrpeparams['checkdir']
+  $startscript = $nrpeparams['startscript']
 
   package { $nagiospkgs:
     ensure => installed,
   }
-
-  file { '/etc/nagios/nrpe.cfg':
-    ensure  => file,
-    content => template('nrpe/nrpe.cfg.erb'),
-    require => Package[ $nagiospkgs ],
+  ->
+  # Configure local NRPE checks and config
+  class {'nrpe::nrpeconf':
+    nagiospkgs => $nagiospkgs,
   }
-
-  file { '/etc/nagios/nrpe_local.cfg':
-    ensure  => file,
-    content => template('nrpe/nrpe_local.cfg.erb'),
-    require => Package[ $nagiospkgs ],
-  }
-
+  ->
   # Call define to put in custom checks
   nrpe::checks { $nagioschecks: 
+    checkdir => $checkdir,
   }
 
-    # Startup nginx once config is done
-  service { 'nagios-nrpe-server':
+  # Restart nrpe if any changes
+  service { $startscript:
     ensure    => running,
     enable    => true,
     subscribe => [ File['/etc/nagios/nrpe.cfg'], File['/etc/nagios/nrpe_local.cfg']],

@@ -1,0 +1,5 @@
+nagioschecks:
+  - check_cpu_stats.sh
+  - check_init_service
+  - check_open_files.pl
+  - custom_check_mem

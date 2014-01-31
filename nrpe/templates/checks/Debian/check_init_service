@@ -1,0 +1,102 @@
+#!/bin/sh
+# ======================================================================================================================
+# Nagios init service check
+#
+# Copyright:        2009-2010, Nagios, Inc.
+# Original Author:  Ethan Galstad <egalstad@nagios.com>
+# Modified by:      Tony Yarusso <tyarusso@nagios.com>
+# License:          BSD <http://www.opensource.org/licenses/bsd-license.php>
+# Homepage:         http://www.nagios.com/
+# Description:      Checks the status of system services normally started by the init process for appropriate runlevel.
+#                     For instance, this would be used to see whether Apache or SSH was running, based on internal
+#                     service information (as opposed to probing the expected ports).  This relies on the init script
+#                     providing the 'status' command.
+#
+# Revision history is kept in Subversion at https://devhub.nagios.com/svn/plugins
+#
+# Usage: ./check_init_service servicename
+#        e.g. ./check_init_service httpd
+#
+# ----------------------------------------------------------------------------------------------------------------------
+#
+# Full license text:
+#
+# Copyright (c) 2009-2010, Nagios, Inc.
+# All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
+# following conditions are met:
+#
+#    * Redistributions of source code must retain the above copyright notice, this list of conditions and the following
+#      disclaimer.
+#    * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the
+#      following disclaimer in the documentation and/or other materials provided with the distribution.
+#    * Neither the name of Nagios nor the names of its contributors may be used to endorse or promote products derived
+#      from this software without specific prior written permission.  (Note however that written permission has already
+#      been granted for many types of usage of the Nagios name.  See the Nagios Trademark Policy on
+#      http://www.nagios.com/legal/trademarks/ for details on allowed uses.)
+
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+# INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+# DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+# SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+# SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+# WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+# OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#
+# ======================================================================================================================
+
+PROGNAME=`basename $0`
+
+print_usage() {
+        echo "Usage: $PROGNAME"
+}
+
+print_help() {
+        echo ""
+        print_usage
+        echo ""
+        echo "This plugin checks the status of services normally started by the init process."
+        echo ""
+        support
+        exit 0
+}
+
+
+case "$1" in
+        --help)
+                print_help
+                exit 0
+                ;;
+        -h)
+                print_help
+                exit 0
+                ;;
+        *)
+
+		if [ $# -eq 1 ]; then 
+			if [ -f /sbin/service ]; then
+				command="/sbin/service $1"
+			elif [ -f /usr/sbin/service ]; then
+				command="/usr/sbin/service $1"
+			elif [ -f /usr/sbin/invoke-rc.d ]; then
+				command="/usr/sbin/invoke-rc.d $1"
+			else
+				command="/etc/init.d/"$1
+			fi
+			$command status
+			ret=$?
+			case "$ret" in
+			     0)
+				exit $ret
+				;;
+			     *)
+				exit 2
+				;;
+			esac
+		else
+			echo "ERROR: No service name specified on command line"
+			exit 3
+		fi
+                ;;
+esac

@@ -1,0 +1,11 @@
+nagiospkgs:
+  - nagios-plugins-nrpe
+  - nagios-plugins-all
+  - nagios-nrpe
+  - sysstat
+  - xinetd
+nagioschecks:
+  - check_init_service
+nrpeparams:
+  checkdir: '/usr/lib64/nagios/plugins'
+  startscript: 'nrpe'
