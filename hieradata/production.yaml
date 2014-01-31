@@ -61,7 +61,6 @@ dependentpkgs:
   - libcurl4-openssl-dev
   - libpq-dev
   - libpq5
-  - unison
 subdirs:
   - '/var/www'
   - '/var/www/pixlr'
