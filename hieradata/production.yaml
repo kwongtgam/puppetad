@@ -48,7 +48,7 @@ nginxvhosts:
     listenport: '80'
   "immio":
     docroot: '/var/www/immio/'
-    server_name: 'immio.io www.imm.io old.imm.io test.imm.io'
+    server_name: 'imm.io www.imm.io old.imm.io test.imm.io'
     order: '15'
     listenport: '80'
   "close":
