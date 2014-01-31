@@ -45,6 +45,9 @@ class pixlr-app::codebase(
   file { '/var/www/immio/index.html':
     ensure  => file,
     content => template('pixlr-app/immio/index.html.erb'),
+    owner => $webuser,
+    group => $webgroup,
+    mode  => 0755,
     require => File['/var/www/immio'],
   }
 }
