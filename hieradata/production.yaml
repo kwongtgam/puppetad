@@ -1,5 +1,5 @@
 ---
-pmasterip: 192.168.159.39
+pmasterip: 192.168.129.11
 rubyver: '2.1.0'
 nginxparams:
   user: 'pixlr'
