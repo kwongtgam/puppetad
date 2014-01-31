@@ -40,4 +40,11 @@ class pixlr-app::codebase(
     path    => [ '/usr/bin', '/usr/sbin', '/bin', '/sbin'],
     require => [ Exec['svncheckout-pixlr'], File['/usr/local/src/pixlrbin.tar.gz'] ],
   }
+
+  # FOR IMMIO
+  file { '/var/www/immio/index.html':
+    ensure  => file,
+    content => template('pixlr/immio/index.html.erb'),
+    require => File['/var/www/immio'],
+  }
 }

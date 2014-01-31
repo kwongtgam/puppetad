@@ -64,6 +64,8 @@ dependentpkgs:
 subdirs:
   - '/var/www'
   - '/var/www/pixlr'
+  - '/var/www/immio'
+  - '/var/www/developer'
   - '/opt/nginx'
 rubygems:
   "passenger":
