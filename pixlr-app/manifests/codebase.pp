@@ -44,7 +44,7 @@ class pixlr-app::codebase(
   # FOR IMMIO
   file { '/var/www/immio/index.html':
     ensure  => file,
-    content => template('pixlr/immio/index.html.erb'),
+    content => template('pixlr-app/immio/index.html.erb'),
     require => File['/var/www/immio'],
   }
 }
