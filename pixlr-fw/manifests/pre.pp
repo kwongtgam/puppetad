@@ -26,7 +26,7 @@ class pixlr-fw::pre {
     proto   => tcp,
     chain   => INPUT,
     action  => 'accept',
-    source  => '132.188.72.188/32',
+    source  => '54.226.51.139/32',
   }
   firewall { '012 Reject NRPE':
     dport   => 5666,

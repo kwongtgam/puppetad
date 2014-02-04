@@ -1,5 +1,6 @@
 class nrpe::nrpeconf(
   $nagiospkgs,
+  $nrpehosts,
 ){
   # Extra checks depending on site
   #case $domain {

@@ -169,3 +169,7 @@ nagioschecks:
 nrpeparams: 
   checkdir: '/usr/lib/nagios/plugins'
   startscript: 'nagios-nrpe-server'
+nrpehosts: 
+  - 127.0.0.1
+  - 172.16.0.0/12
+  - 132.188.71.0/24

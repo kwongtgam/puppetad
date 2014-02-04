@@ -2,18 +2,25 @@ class nrpe(
   $nagiospkgs   = hiera('nagiospkgs'),
   $nagioschecks = hiera('nagioschecks'),
   $nrpeparams   = hiera('nrpeparams'),
+  $nrpehosts    = hiera('nrpehosts'),
 ){
 
-  $checkdir    = $nrpeparams['checkdir']
-  $startscript = $nrpeparams['startscript']
+  $checkdir     = $nrpeparams['checkdir']
+  $startscript  = $nrpeparams['startscript']
+  $allowedhosts = $nrpeparams['allowedhosts']
 
   package { $nagiospkgs:
     ensure => installed,
   }
   ->
+  # Configure NRPE firewall
+  class {'nrpe::nrpefw':
+  }
+  ->
   # Configure local NRPE checks and config
   class {'nrpe::nrpeconf':
     nagiospkgs => $nagiospkgs,
+    nrpehosts  => $nrpehosts,
   }
   ->
   # Call define to put in custom checks
