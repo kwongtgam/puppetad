@@ -79,7 +79,14 @@ class pixlr-fw::pm {
     action  => 'accept',
     source  => '172.16.40.1/32',
   }
-  firewall { '061 Reject SSH':
+  firewall { '061 AllowHTTPS TorontoProxy':
+    dport   => 443,
+    proto   => tcp,
+    chain   => INPUT,
+    action  => 'accept',
+    source  => '208.100.40.39/32',
+  }
+  firewall { '062 Reject HTTPS':
     dport   => 443,
     proto   => tcp,
     action  => 'reject',
