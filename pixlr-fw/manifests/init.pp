@@ -15,4 +15,8 @@ class pixlr-fw(
   class { ['pixlr-fw::pre', 'pixlr-fw::post']: } 
   class { 'firewall': }
 
+  if $::domain == "pm.pixlr.com" {
+    class { 'pixlr-fw::pm': }
+  }
+
 }
