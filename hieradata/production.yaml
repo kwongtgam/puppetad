@@ -166,6 +166,7 @@ nagioschecks:
   - check_open_files.pl
   - check_netstat.pl
   - check_passenger.sh
+  - check_mem
 nrpeparams: 
   checkdir: '/usr/lib/nagios/plugins'
   startscript: 'nagios-nrpe-server'
