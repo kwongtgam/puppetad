@@ -6,3 +6,43 @@ immiopkgs:
   - rabbitmq-server
   - postgresql
   - postgresql-contrib
+rubyver: '2.1.0'
+rubygems:
+  "rails":
+    gemver: '4.0.2'
+  "passenger":
+    gemver: '4.0.35'
+nginxparams:
+  user: 'balder'
+  group: 'web'
+  gid: '1001'
+  password: '$6$n1ZLNYG/$rHMtCLPF08SPuBu0NzbE.tJwSehwjzU6qWkX.czU0MgtpfRkDjyNSv/CWWbmhUhlwJqx8eFKW5G5sMxuvQOfT.'
+  conffile: '/opt/nginx/conf/nginx.conf'
+nginxvhosts:
+  "serverparams":
+    docroot: '/var/www/balder/public/'
+    server_name: 'dev.balder.com'
+    order: '01'
+    listenport: '80'
+  "prod":
+    docroot: '/var/www/balder/public/'
+    server_name: 'balder.com'
+    order: '10'
+    listenport: '80'
+dependentpkgs:
+  - git-core
+  - nodejs
+  - libcurl4-openssl-dev
+  - libpq-dev
+  - libpq5
+passengerparams:
+  max_pool_size: 15
+  min_instances: 5
+  pool_idle_time: 5
+  buffers: 16
+  buffer_size: 32k
+  buffer_response: 'off'
+subdirs:
+  - '/var/www'
+  - '/var/www/balder'
+  - '/opt/nginx'

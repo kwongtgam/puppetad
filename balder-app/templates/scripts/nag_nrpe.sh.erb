@@ -1,0 +1,34 @@
+#!/bin/bash
+ 
+echo "deb http://ppa.launchpad.net/nagiosinc/ppa/ubuntu lucid main" > /etc/apt/sources.list.d/nagiosinc.list;
+gpg --keyserver keyserver.ubuntu.com --recv-keys B18637BB5175BC68;
+gpg --export --armor B18637BB5175BC68 | apt-key add -;
+ 
+apt-get update;
+apt-get -y install nagios-agent sysstat;
+ 
+sed 's/^allowed_hosts=127\.0\.0\.1/#allowed_hosts=127\.0\.0\.1/' /etc/nagios/nrpe.cfg > /etc/nagios/nrpe.cfg.my;
+mv -f /etc/nagios/nrpe.cfg.my /etc/nagios/nrpe.cfg;
+ 
+sed 's/^dont_blame_nrpe=0/dont_blame_nrpe=1/' /etc/nagios/nrpe.cfg > /etc/nagios/nrpe.cfg.my;
+mv -f /etc/nagios/nrpe.cfg.my /etc/nagios/nrpe.cfg;
+ 
+cat <<EOF >> /etc/nagios/nrpe_local.cfg
+command[check_init_service]=/usr/lib/nagios/plugins/check_init_service \$ARG1$
+command[check_services]=/usr/lib/nagios/plugins/check_services -p \$ARG1$
+command[check_users]=/usr/lib/nagios/plugins/check_users \$ARG1$
+command[check_load]=/usr/lib/nagios/plugins/check_load \$ARG1$
+command[check_swap]=/usr/lib/nagios/plugins/check_swap \$ARG1$
+command[check_cpu_stats]=/usr/lib/nagios/plugins/check_cpu_stats.sh \$ARG1$
+command[check_mem]=/usr/lib/nagios/plugins/custom_check_mem \$ARG1$
+command[check_disk]=/usr/lib/nagios/plugins/check_disk \$ARG1$
+command[check_ide_smart]=/usr/lib/nagios/plugins/check_ide_smart \$ARG1$
+command[check_all_procs]=/usr/lib/nagios/plugins/custom_check_procs
+command[check_procs]=/usr/lib/nagios/plugins/check_procs \$ARG1$
+command[check_open_files]=/usr/lib/nagios/plugins/check_open_files.pl \$ARG1$
+command[check_netstat]=/usr/lib/nagios/plugins/check_netstat.pl -p \$ARG1$ \$ARG2$
+EOF
+ 
+/etc/init.d/nagios-nrpe-server restart;
+ 
+update-rc.d nagios-nrpe-server defaults;

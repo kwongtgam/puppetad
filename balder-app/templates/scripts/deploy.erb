@@ -1,0 +1,14 @@
+#! /bin/sh
+
+ROOT="/var/www/pixlr/"
+
+su - pixlr -c "cd $ROOT && svn up"
+
+cd $ROOT
+bundle install > /dev/null
+
+if [ $? = 0 ]; then
+  touch $ROOT/tmp/restart.txt
+else
+  echo 'No restart done, something failed'
+fi

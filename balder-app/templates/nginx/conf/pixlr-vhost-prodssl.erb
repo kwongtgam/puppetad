@@ -1,0 +1,48 @@
+    server {
+        listen       <%= @nginxvhosts[@name]['listenport'] %>;
+        server_name  <%= @nginxvhosts[@name]['server_name'] %>;
+
+        root <%= @nginxvhosts[@name]['docroot'] %>;
+
+        ssl                     on;
+        ssl_certificate         /etc/ssl/certs/2014.pixlr.com.crt;
+        ssl_certificate_key     /etc/ssl/certs/pixlr.com.key;
+
+        location /_temp/ {
+            rewrite ^/_temp/http:(.*)$ http://$1 redirect;
+            add_header content-disposition attachment;
+            expires 0;
+        }
+
+        error_page 503 @maintenance;
+        location @maintenance {
+            rewrite ^(.*)$ /maintenance.html break;
+        }
+
+        location / {
+            if (-f $document_root/maintenance.html) {
+                return 503;
+            }
+
+            rewrite editor$ /editor/ permanent;
+            rewrite express$ /express/ permanent;
+            rewrite o-matic$ /o-matic/ permanent;
+            rewrite (app|ext)/?$ /editor/ permanent;
+
+            if ($http_referer ~* "(photoshoponlinehd.blogspot.com|sinopsedefilmesonlinehd.blogspot.com)") {
+                return 403;
+            }
+
+            if ($http_referer ~* "(montagemdefoto.net|fotomontagensonline.blogspot.com)") {
+                return 403;
+            }
+
+            if ($http_referer ~* "(montagensfotos2010|montagensfotos2011|fotomontagemonlinebr|montagensonlinegratis2011|monategnsonlinegratis2011|monategnsonlinegratis|brincadeirasdivertidas2011|brincadeirasdivertidas2012).blogspot.com") {
+                return 403;
+            }
+
+            passenger_enabled on;
+        }
+    }
+
+

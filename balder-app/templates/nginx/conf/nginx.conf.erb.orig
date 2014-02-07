@@ -1,0 +1,173 @@
+user pixlr web;
+worker_processes  4;
+
+events {
+    worker_connections  2048;
+}
+
+http {
+
+    passenger_root /root/.rbenv/versions/2.0.0-p0/lib/ruby/gems/2.0.0/gems/passenger-4.0.5;
+    passenger_ruby /root/.rbenv/versions/2.0.0-p0/bin/ruby;
+    passenger_max_pool_size 15;
+    passenger_min_instances 5;
+    passenger_pool_idle_time 600;
+    passenger_default_user pixlr;
+    passenger_default_group web;
+
+    passenger_buffers 16 16k;
+    passenger_buffer_size 32k;
+
+    passenger_buffer_response off;
+
+    include       mime.types;
+    client_max_body_size 100M;    
+    default_type  application/octet-stream;
+
+    sendfile        on;
+    keepalive_timeout  65;
+    tcp_nodelay		on;
+
+    error_log /dev/null crit;
+    access_log off;
+
+    gzip  on;
+
+    server {
+        listen       80;
+        server_name  pixlr.com;
+
+        root /var/www/pixlr/public;
+		
+        location /_temp/ {
+            rewrite ^/_temp/http:(.*)$ http://$1 redirect;
+            add_header content-disposition attachment;
+            expires 0;
+        }
+
+        error_page 503 @maintenance;
+        location @maintenance {
+            rewrite ^(.*)$ /maintenance.html break;
+        }
+
+        location / {
+            if (-f $document_root/maintenance.html) {
+                return 503;
+            }
+
+            rewrite editor$ /editor/ permanent;
+            rewrite express$ /express/ permanent;
+            rewrite o-matic$ /o-matic/ permanent;
+            rewrite (app|ext)/?$ /editor/ permanent;
+
+	    add_header P3P "CP=\"IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT\"";
+
+            if ($http_referer ~* "(photoshoponlinehd.blogspot.com|sinopsedefilmesonlinehd.blogspot.com)") {
+                return 403;
+            }
+
+            if ($http_referer ~* "(montagemdefoto.net|fotomontagensonline.blogspot.com)") {
+                return 403;
+            }
+
+            if ($http_referer ~* "(montagensfotos2010|montagensfotos2011|fotomontagemonlinebr|montagensonlinegratis2011|monategnsonlinegratis2011|monategnsonlinegratis|brincadeirasdivertidas2011|brincadeirasdivertidas2012).blogspot.com") {
+                return 403;
+            }
+	
+            passenger_enabled on;
+        }
+    }
+
+    server {
+        listen       443;
+        server_name  pixlr.com;
+
+        root /var/www/pixlr/public;
+
+        ssl                     on;
+        ssl_certificate         /etc/ssl/certs/2014.pixlr.com.crt;
+        ssl_certificate_key     /etc/ssl/certs/pixlr.com.key;
+
+        location /_temp/ {
+            rewrite ^/_temp/http:(.*)$ http://$1 redirect;
+            add_header content-disposition attachment;
+            expires 0;
+        }
+
+        error_page 503 @maintenance;
+        location @maintenance {
+            rewrite ^(.*)$ /maintenance.html break;
+        }
+
+        location / {
+            if (-f $document_root/maintenance.html) {
+                return 503;
+            }
+
+            rewrite editor$ /editor/ permanent;
+            rewrite express$ /express/ permanent;
+            rewrite o-matic$ /o-matic/ permanent;
+            rewrite (app|ext)/?$ /editor/ permanent;
+
+            if ($http_referer ~* "(photoshoponlinehd.blogspot.com|sinopsedefilmesonlinehd.blogspot.com)") {
+                return 403;
+            }
+
+            if ($http_referer ~* "(montagemdefoto.net|fotomontagensonline.blogspot.com)") {
+                return 403;
+            }
+
+            if ($http_referer ~* "(montagensfotos2010|montagensfotos2011|fotomontagemonlinebr|montagensonlinegratis2011|monategnsonlinegratis2011|monategnsonlinegratis|brincadeirasdivertidas2011|brincadeirasdivertidas2012).blogspot.com") {
+                return 403;
+            }
+
+            passenger_enabled on;
+        }
+    }
+
+    server {
+        listen 80;
+        server_name www.pixlr.com;
+        rewrite ^(.*) http://pixlr.com$1 permanent;
+    }
+
+    server {
+        listen 80;
+        server_name developer.pixlr.com;
+   
+        root /var/www/developer/;
+        passenger_enabled off;
+    }
+
+    server {
+        listen       80;
+        server_name  stage.pixlr.com;
+	rack_env stage;
+
+        root /var/www/pixlr_stage/trunk/public;
+        access_log logs/stage.log;
+		
+        location /_temp/ {
+            rewrite ^/_temp/http:(.*)$ http://$1 redirect;
+            add_header content-disposition attachment;
+            expires 0;
+        }
+
+        location / {
+            rewrite editor$ /editor/ permanent;
+            rewrite express$ /express/ permanent;
+            rewrite o-matic$ /o-matic/ permanent;
+            rewrite (app|ext)/?$ /editor/ permanent;
+	
+            passenger_enabled on;
+        }
+    }
+
+    server {
+        listen 80;
+        server_name vagrant.pixlr.com;
+
+        root /var/www/vagrant;
+    }    
+
+}

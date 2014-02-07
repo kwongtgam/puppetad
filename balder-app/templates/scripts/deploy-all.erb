@@ -1,0 +1,10 @@
+#! /bin/sh
+
+echo "Running for this machine"
+/root/deploy
+
+for slave in `cat /root/slaves`
+do
+    echo "Running for $slave"
+    ssh root@$slave bash -l /root/deploy
+done

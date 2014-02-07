@@ -1,0 +1,48 @@
+#! /bin/bash
+
+function nginx {
+  #CONFPATH="/opt/nginx/conf/nginx.conf"
+
+  #for slave in `cat /root/slaves`;
+  #do
+  #  scp $CONFPATH root@$slave:$CONFPATH
+  #done
+
+  #for slave in `cat /root/slaves`;
+  #do
+  #  echo "Reloading config for $slave"
+  #  ssh root@$slave /opt/nginx/sbin/nginx -s reload
+  #done
+  echo "This function replaced by Puppet"
+}
+
+function public {
+  PUBLIC="/var/www/pixlr/public/"
+
+  for slave in `cat /root/slaves`;
+  do
+      unison $PUBLIC ssh://<%= @webuser %>@$slave/$PUBLIC -batch -silent -owner -group -ignore "Name .svn" -ignore "Path *_temp*" -ignore "Name *.swp"
+  done
+}
+
+function cron {
+  #FILE="/etc/cron.d/pixlr"
+
+  #for slave in `cat /root/slaves`;
+  #do
+  #  scp $FILE root@$slave:$FILE
+  #done
+  echo "This function replaced by Puppet"
+}
+
+case $1 in
+  nginx )
+    nginx ;;
+  public )
+    public ;;
+  cron )
+    cron ;;
+  * )
+    echo $"Usage: $0 {nginx|public|cron}"
+    exit 1
+esac
