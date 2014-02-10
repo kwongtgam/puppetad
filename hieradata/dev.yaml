@@ -13,10 +13,10 @@ rubygems:
   "passenger":
     gemver: '4.0.35'
 nginxparams:
-  user: 'balder'
-  group: 'web'
-  gid: '1002'
-  password: '$6$n1ZLNYG/$rHMtCLPF08SPuBu0NzbE.tJwSehwjzU6qWkX.czU0MgtpfRkDjyNSv/CWWbmhUhlwJqx8eFKW5G5sMxuvQOfT.'
+  user: 'vagrant'
+  group: 'vagrant'
+  gid: '1000'
+  password: '$6$hgWepssv$nwQ6SUsgvqEzn7ru1lq2KNllLiVRKrX8NqNukQhMjj5RnGS9j6RblRXF8rg8pTK5Pe74AROVe371Btkl.fJPO/'
   conffile: '/opt/nginx/conf/nginx.conf'
 nginxvhosts:
   "serverparams":
