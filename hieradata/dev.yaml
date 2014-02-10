@@ -34,6 +34,7 @@ dependentpkgs:
   - libcurl4-openssl-dev
   - libpq-dev
   - libpq5
+  - libsqlite3-dev
 passengerparams:
   max_pool_size: 15
   min_instances: 5
