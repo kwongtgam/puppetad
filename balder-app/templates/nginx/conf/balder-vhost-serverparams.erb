@@ -1,0 +1,36 @@
+user <%= @user %> <%= @group %>;
+worker_processes  4;
+
+events {
+    worker_connections  2048;
+}
+
+http {
+
+    passenger_root <%= @passengerroot %>;
+    passenger_ruby <%= @passengerruby %>;
+    passenger_max_pool_size <%= @maxpoolsize %>;
+    passenger_min_instances <%= @mininstances %>;
+    passenger_pool_idle_time <%= @poolidletime %>;
+    passenger_default_user <%= @user %>;
+    passenger_default_group <%= @group %>;
+
+    passenger_buffers <%= @buffers %> <%= @buffers %>k;
+    passenger_buffer_size <%= @buffersize %>;
+
+    passenger_buffer_response <%= @bufferresp %>;
+
+    include       mime.types;
+    client_max_body_size 100M;    
+    default_type  application/octet-stream;
+
+    sendfile        on;
+    keepalive_timeout  65;
+    tcp_nodelay		on;
+
+    error_log /dev/null crit;
+    #access_log off;
+    access_log /opt/nginx/logs/prod-access.log;
+
+    gzip  on;
+

@@ -1,0 +1,34 @@
+    server {
+        listen       <%= @nginxvhosts[@name]['listenport'] %>;
+        server_name  <%= @nginxvhosts[@name]['server_name'] %>;
+
+        root <%= @nginxvhosts[@name]['docroot'] %>;
+		
+        location /_temp/ {
+            rewrite ^/_temp/http:(.*)$ http://$1 redirect;
+            add_header content-disposition attachment;
+            expires 0;
+        }
+
+        error_page 503 @maintenance;
+        location @maintenance {
+            rewrite ^(.*)$ /maintenance.html break;
+        }
+
+        location / {
+            if (-f $document_root/maintenance.html) {
+                return 503;
+            }
+
+	    add_header P3P "CP=\"IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT\"";
+
+            passenger_enabled on;
+        }
+    }
+
+    server {
+        listen <%= @nginxvhosts[@name]['listenport'] %>;
+        server_name <%= @nginxvhosts[@name]['server_name'] %>;
+        rewrite ^(.*) http://creativepass.com$1 permanent;
+    }
+
