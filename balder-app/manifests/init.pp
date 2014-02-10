@@ -54,6 +54,12 @@ class balder-app (
     subdirs     => $subdirs,
   }
 
+  # Call the sub-class to generate a default Rails app
+  class {'balder-app::rails':
+    webuser     => $webuser,
+    rbenvpath   => $rbenvpath,
+  }
+
   # Order the classes
-  Class['balder-app::createuser'] -> Class['balder-app::repo'] -> Class['balder-app::packages'] -> Class['balder-app::rbenv'] -> Class['balder-app::nginx']
+  Class['balder-app::createuser'] -> Class['balder-app::repo'] -> Class['balder-app::packages'] -> Class['balder-app::rbenv'] -> Class['balder-app::nginx'] -> Class['balder-app::rails']
 }
