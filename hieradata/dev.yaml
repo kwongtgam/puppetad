@@ -15,7 +15,7 @@ rubygems:
 nginxparams:
   user: 'balder'
   group: 'web'
-  gid: '1001'
+  gid: '1002'
   password: '$6$n1ZLNYG/$rHMtCLPF08SPuBu0NzbE.tJwSehwjzU6qWkX.czU0MgtpfRkDjyNSv/CWWbmhUhlwJqx8eFKW5G5sMxuvQOfT.'
   conffile: '/opt/nginx/conf/nginx.conf'
 nginxvhosts:
@@ -30,7 +30,6 @@ nginxvhosts:
     order: '10'
     listenport: '80'
 dependentpkgs:
-  - git-core
   - nodejs
   - libcurl4-openssl-dev
   - libpq-dev

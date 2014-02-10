@@ -6,8 +6,6 @@ class balder-app (
   $dependentpkgs    = hiera('dependentpkgs'),
   $passengerparams  = hiera('passengerparams'),
   $subdirs          = hiera('subdirs'),
-  $cronjobs         = hiera('cronjobs'),
-  $cronjobsall      = hiera('cronjobsall'),
 ){
  
   require configurerepo
@@ -53,6 +51,7 @@ class balder-app (
     nginxconf   => $nginxconf,
     nginxvhosts => $nginxvhosts,
     nginxparams => $nginxparams,
+    subdirs     => $subdirs,
   }
 
   # Order the classes

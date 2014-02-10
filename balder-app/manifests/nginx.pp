@@ -5,11 +5,18 @@ class balder-app::nginx(
   $nginxconf,
   $nginxvhosts,
   $nginxparams,
+  $subdirs,
 ){
 
   Concat {
     owner => $webuser,
     group => $webgroup,
+  }
+
+  # Create Subdirs
+  balder-app::subdirs { $subdirs:
+    webuser  => $webuser,
+    webgroup => $webgroup,
   }
 
   # Install/compile Phusion Passenger with Nginx

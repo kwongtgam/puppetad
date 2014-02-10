@@ -10,6 +10,7 @@ define balder-app::gem(
     command => "su - ${webuser} -c 'gem install ${name} -v ${gemver}'",
     path    => [ "/home/${webuser}/.rbenv/shims", '/usr/bin', '/usr/sbin', '/bin', '/sbin'],
     creates => "/home/${webuser}/.rbenv/versions/${rubyver}/bin/${name}",
+    timeout => 0,
     require  => Rbenv::Compile["$rubyver"],
   }
 
