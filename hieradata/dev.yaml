@@ -21,13 +21,18 @@ nginxparams:
 nginxvhosts:
   "serverparams":
     docroot: '/var/www/balder/public/'
-    server_name: 'dev.balder.com'
+    server_name: 'dev.creativepass.com'
     order: '01'
     listenport: '80'
   "prod":
     docroot: '/var/www/balder/public/'
-    server_name: 'balder.com'
+    server_name: 'creativepass.com'
     order: '10'
+    listenport: '80'
+  "close":
+    docroot: '/var/www/balder/public/'
+    server_name: 'creativepass.com'
+    order: '99'
     listenport: '80'
 dependentpkgs:
   - nodejs

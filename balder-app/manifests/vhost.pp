@@ -30,7 +30,7 @@ define balder-app::vhost(
 
   concat::fragment{ "${name}":
     target  => "${conffile}",
-    content => template("balder-app/nginx/conf/pixlr-vhost-${name}.erb"),
+    content => template("balder-app/nginx/conf/balder-vhost-${name}.erb"),
     order   => "${order}",
     require => Exec['passenger-install-nginx']
   }
