@@ -9,6 +9,8 @@ nginxparams:
   gid: '1002'
   password: '$6$n1ZLNYG/$rHMtCLPF08SPuBu0NzbE.tJwSehwjzU6qWkX.czU0MgtpfRkDjyNSv/CWWbmhUhlwJqx8eFKW5G5sMxuvQOfT.'
   conffile: '/opt/nginx/conf/nginx.conf'
+pixlrmongodb:
+  - 127.0.0.1
 nginxvhosts:
   "serverparams":
     docroot: '/var/www/pixlr/public/'
