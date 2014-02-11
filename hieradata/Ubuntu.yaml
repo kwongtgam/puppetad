@@ -3,3 +3,50 @@ nagioschecks:
   - check_init_service
   - check_open_files.pl
   - custom_check_mem
+nginxparams:
+  user: 'pixlr'
+  group: 'web'
+  gid: '1002'
+  password: '$6$n1ZLNYG/$rHMtCLPF08SPuBu0NzbE.tJwSehwjzU6qWkX.czU0MgtpfRkDjyNSv/CWWbmhUhlwJqx8eFKW5G5sMxuvQOfT.'
+  conffile: '/opt/nginx/conf/nginx.conf'
+nginxvhosts:
+  "serverparams":
+    docroot: '/var/www/pixlr/public/'
+    server_name: 'pixlr.com'
+    order: '01'
+    listenport: '8080'
+  "prod":
+    docroot: '/var/www/pixlr/public/'
+    server_name: 'pixlr.com'
+    order: '10'
+    listenport: '8080'
+  "prodssl":
+    docroot: '/var/www/pixlr/public/'
+    server_name: 'pixlr.com'
+    order: '11'
+    listenport: '443'
+  "dev":
+    docroot: '/var/www/developer/'
+    server_name: 'developer.pixlr.com'
+    order: '12'
+    listenport: '8080'
+  "stage":
+    docroot: '/var/www/pixlr_stage/trunk/public'
+    server_name: 'pixlr.com'
+    order: '13'
+    listenport: '8080'
+  "vagrant":
+    docroot: '/var/www/vagrant'
+    server_name: 'vagrant.pixlr.com'
+    order: '14'
+    listenport: '8080'
+  "immio":
+    docroot: '/var/www/immio/'
+    server_name: 'imm.io www.imm.io old.imm.io test.imm.io'
+    order: '15'
+    listenport: '8080'
+  "close":
+    docroot: '/var/www/pixlr/public/'
+    server_name: 'pixlr.com'
+    order: '99'
+    listenport: '8080'
