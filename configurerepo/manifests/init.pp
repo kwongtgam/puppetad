@@ -5,7 +5,7 @@ class configurerepo {
 
     # Requires the puppetlabs/apt module to be installed
 
-    if  $::hostname =~ /(mongo|mongodb|db)\d+/  {
+    if ($::hostname =~ /(mongo|mongodb|db)\d+/ or $::virtual =~ /virtualbox/) {
       # Install the 10th gen repo for MongoDB
       apt::source {'10gen':
         location    => 'http://downloads-distro.mongodb.org/repo/debian-sysvinit',
